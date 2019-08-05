@@ -25,6 +25,6 @@ class Todo extends React.Component{
     return (
     
              )
-    }
+}
 
 export default Todo;
