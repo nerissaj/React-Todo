@@ -8,58 +8,77 @@ class App extends React.Component {
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
-  toggleTask = id => {
-    console.log(id);
-    // Update groceries on our state object
-    // use this.setState
-    // loop through the arr
-    // find which element we clicked update the "pruchased" property
-    this.setState({
-      task: this.state.task.map(task => {
-        if (task.id === id) {
-          return {
-            ...task,
-            // Same as:
-            // name: item.name,
-            // id: item.id,
-            // purchased: item.purchased,
-            completed: !task.completed
-          };
-        } else {
-          return task;
-        }
-      })
-    });
-  };
+  constructor (){
+    super();
+    this.state = {
+    todos: [
+      {
+      
 
-  addTask = TaskName => {
-    const newTask = {
-      task: TaskName,
-      id: Date.now(),
+      task: 'Organize Garage',
+      id: 1528817077286,
       completed: false
+    },
+    {
+      task: 'Bake Cookies',
+      id: 1528817084358,
+      completed: false
+    }
+  ],
+  todo:''
+
+      };
+    }
+   addTodo = e => {
+      e.preventDefault();
+      
+      const newTodo = {task:this.state.todo, completed: false, id : Date.now()};
+      this.setState({
+        todos:[...this.state.todos, newTodo],
+    todo:''
+    });
+  };
+  changeTodo = e => this.setState({[e.target.name]: e.target.value});
+    
+  toggleTodoComplete = id => {
+    let todos = this.state.todos.slice();
+     todos = todos.map(todo =>{
+        if (todo.id === id) {
+      todo.completed =!todo.completed;
+      return todo;
+        }else{
+          return todo;
+        }
+      });
+      this.setState({todos});
     };
-    this.setState({
-      task: [...this.state.task, newTask]
-    });
-  };
-  clearCompleted = () => {
-    this.setState({
-      task: this.state.task.filter(task => !task.completed)
-    });
-  };
+          
+  clearCompleted = e => {
+    e.preventDefault();
+    let todos =this.state.todos.filter(todo => !todo.completed);
+    this.setState({todos});
+    };
+  
   render() {
     return (
       <div>
-        <h2>Welcome to your Todo App!</h2>
-        <TodoForm addTask={this.addTask} />
-       
-        <TodoList
-        task={this.state.task} 
-        toggleTask={this.toggleTask} />
+        
+        
+           <TodoList handleToggleComplete={this.toggleTodoComplete}
+           todos={this.state.todos} />
+           
+
+ 
+        <TodoForm 
+      value={this.state.todo}
+      handleTodoChange={this.changeTodo}
+          handleAddTask={this.addTask}
+        handleclearCompleted={this.clearCompleted}
+         />
+     
        </div>
-    )
-  }
-}
+    );
+      }}
 
 export default App;
 

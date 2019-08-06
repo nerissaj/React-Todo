@@ -7,13 +7,12 @@ import Todo from './Todo';
 const TodoList = props => {
     // const sortedList = props.groceries.sort((a, b) => a.purchased - b.purchased);
     return (
-        <div className="TodoList">
-            {props.tasks.map(task => (
-                <TodoList key={task.id} task={task} toggleTask={props.toggleTask} />
+        <div>
+            {props.todos.map(todo => (
+                <Todo handleToggleComplete={props.handleToggleComplete} 
+                key={todo.id} todo={todo} />
             ))}
-            <button className="clear-btn" onClick={props.clearCompleted}>
-                Clear Completed
-      </button>
+            
         </div>
     );
 };
